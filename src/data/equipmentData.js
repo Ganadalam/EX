@@ -1,5 +1,3 @@
-// src/data/mockData.js
-
 export const equipments = [
   {
     id: 1,
@@ -8,9 +6,10 @@ export const equipments = [
     model: "KOMATSU PC60",
     year: 2020,
     operator: "김철수",
+    rate: 50000,
+    baseFuelCostPerDay: 85000,
     lastMaintenance: "2026-03-01",
     nextMaintenance: "2026-06-01",
-    baseFuelCostPerDay: 80000,
   },
   {
     id: 2,
@@ -19,8 +18,21 @@ export const equipments = [
     model: "HYUNDAI R80",
     year: 2019,
     operator: "이영희",
+    rate: 60000,
+    baseFuelCostPerDay: 90000,
     lastMaintenance: "2026-02-15",
     nextMaintenance: "2026-05-15",
-    baseFuelCostPerDay: 90000,
+  },
+  {
+    id: 3,
+    name: "로더 01",
+    type: "로더",
+    model: "KOMATSU WA200",
+    year: 2021,
+    operator: "박민준",
+    rate: 45000,
+    baseFuelCostPerDay: 70000,
+    lastMaintenance: "2026-01-10",
+    nextMaintenance: "2026-04-10",
   },
 ];

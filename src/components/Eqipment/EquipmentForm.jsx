@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const EQUIPMENT_TYPES = ["굴삭기", "로더", "불도저", "크레인", "덤프트럭"];
-
 const PRESET_MODELS = {
   굴삭기: [
     "KOMATSU PC60",
@@ -15,7 +14,6 @@ const PRESET_MODELS = {
   크레인: ["TADANO GR-300", "LIEBHERR LTM1030"],
   덤프트럭: ["HYUNDAI HD170", "DAEWOO NOVUS"],
 };
-
 const FUEL_PRESETS = {
   굴삭기: 85000,
   로더: 70000,
@@ -24,30 +22,35 @@ const FUEL_PRESETS = {
   덤프트럭: 100000,
 };
 
-export default function EquipmentForm({ addEquipment }) {
-  const [form, setForm] = useState({
-    name: "",
-    type: "",
-    model: "",
-    year: new Date().getFullYear(),
-    operator: "",
-    rate: 0,
-    baseFuelCostPerDay: 0,
-    lastMaintenance: "",
-    nextMaintenance: "",
-  });
+const INIT = {
+  name: "",
+  type: "",
+  model: "",
+  year: new Date().getFullYear(),
+  operator: "",
+  rate: 0,
+  baseFuelCostPerDay: 0,
+  lastMaintenance: "",
+  nextMaintenance: "",
+};
 
+export default function EquipmentForm({ addEquipment }) {
+  const [form, setForm] = useState(INIT);
   const set = (key, val) => setForm((f) => ({ ...f, [key]: val }));
 
   const handleTypeChange = (type) => {
-    set("type", type);
-    set("baseFuelCostPerDay", FUEL_PRESETS[type] ?? 0);
-    set("model", "");
+    setForm((f) => ({
+      ...f,
+      type,
+      baseFuelCostPerDay: FUEL_PRESETS[type] ?? 0,
+      model: "",
+    }));
   };
 
   const handleSubmit = () => {
     if (!form.name || !form.type) return alert("장비명과 종류는 필수입니다.");
     addEquipment({ ...form, id: Date.now() });
+    setForm(INIT);
   };
 
   return (
@@ -74,9 +77,9 @@ export default function EquipmentForm({ addEquipment }) {
         ))}
       </select>
 
-      <label>모델명</label>
+      <label>모델명 (선택 또는 직접 입력)</label>
       <select value={form.model} onChange={(e) => set("model", e.target.value)}>
-        <option value="">선택 또는 직접 입력</option>
+        <option value="">선택</option>
         {(PRESET_MODELS[form.type] ?? []).map((m) => (
           <option key={m} value={m}>
             {m}

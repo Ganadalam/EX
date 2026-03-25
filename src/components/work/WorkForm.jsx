@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { equipments } from "../../data/equipmentData";
 import { companies } from "../../data/companyData";
-import { calcCost } from "../../utils/calcCost";
 
 export default function WorkForm({ addWork }) {
   const [form, setForm] = useState({
@@ -15,15 +14,18 @@ export default function WorkForm({ addWork }) {
 
   const handleSubmit = () => {
     const equipment = equipments.find((e) => e.id == form.equipmentId);
-
-    const totalCost =
-      calcCost(form.workHours, form.overtimeHours, equipment.rate) +
-      Number(form.extraCost);
+    const rate = equipment.rate;
+    const overtimeRate = rate * 1.5;
 
     addWork({
       ...form,
       id: Date.now(),
-      totalCost,
+      rate,
+      overtimeRate,
+      totalCost:
+        form.workHours * rate +
+        form.overtimeHours * overtimeRate +
+        Number(form.extraCost),
     });
   };
 
